@@ -15,6 +15,6 @@ target_include_directories(audio
 )
 
 target_link_libraries(audio
-    PRIVATE
+    PUBLIC
         # List of libraries to link:
 )

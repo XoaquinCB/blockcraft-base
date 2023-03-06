@@ -15,6 +15,6 @@ target_include_directories(bluetooth
 )
 
 target_link_libraries(bluetooth
-    PRIVATE
+    PUBLIC
         # List of libraries to link:
 )
