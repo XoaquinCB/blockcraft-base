@@ -9,6 +9,11 @@ target_sources(bluetooth
         ${CMAKE_CURRENT_SOURCE_DIR}/bluetooth.h
 )
 
+target_include_directories(bluetooth
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(bluetooth
     PRIVATE
         # List of libraries to link:

@@ -9,6 +9,11 @@ target_sources(audio
         ${CMAKE_CURRENT_SOURCE_DIR}/audio.h
 )
 
+target_include_directories(audio
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(audio
     PRIVATE
         # List of libraries to link:

@@ -9,6 +9,11 @@ target_sources(block_io
         ${CMAKE_CURRENT_SOURCE_DIR}/block_io.h
 )
 
+target_include_directories(block_io
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(block_io
     PRIVATE
         # List of libraries to link:
