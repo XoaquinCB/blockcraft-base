@@ -16,3 +16,4 @@ set(PICO_BOARD pico_w)
 pico_sdk_init()
 
 add_subdirectory(src)
+add_subdirectory(tests)
