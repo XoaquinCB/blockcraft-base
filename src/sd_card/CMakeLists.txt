@@ -17,4 +17,5 @@ target_include_directories(sd_card
 target_link_libraries(sd_card
     PRIVATE
         # List of libraries to link:
+        FatFs_SPI
 )
