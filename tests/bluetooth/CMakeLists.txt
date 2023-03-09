@@ -9,7 +9,10 @@ target_sources(bluetooth_test
 target_link_libraries(bluetooth_test
     PRIVATE
         # List of libraries to link:
-        bluetooth
+        bt_serial
+        pico_stdio_usb
+        pico_runtime
+        pico_time
 )
 
 pico_add_extra_outputs(bluetooth_test)
