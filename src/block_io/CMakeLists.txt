@@ -17,9 +17,8 @@ target_include_directories(block_io
 target_link_libraries(block_io
     PUBLIC
         # List of libraries to link:
-        pico_stdlib
-        pico_binary_info
         hardware_spi
-        hardware_dma
+        hardware_gpio
+        pico_time
 )
 
