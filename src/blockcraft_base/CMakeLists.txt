@@ -17,6 +17,7 @@ target_link_libraries(blockcraft_base
         block_io
         bt_serial
         pico_runtime
+        pico_stdio_usb
         pico_time
 )
 
