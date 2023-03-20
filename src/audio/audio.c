@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#define AUDIO_PIN 16
+#define AUDIO_PIN 18
 
 #define SAMPLES_IN_BUFFER 512
 #define BITS_PER_SAMPLE 10 // PWM frequency = 125 MHz / 2^10 = 122.070 kHz
