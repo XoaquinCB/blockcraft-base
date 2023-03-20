@@ -10,6 +10,9 @@ target_link_libraries(audio_test
     PRIVATE
         # List of libraries to link:
         audio
+        pico_runtime
+        pico_stdio_usb
+        pico_time
 )
 
 pico_add_extra_outputs(audio_test)
