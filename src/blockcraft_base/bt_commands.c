@@ -154,7 +154,7 @@ void bt_commands_update_rx()
                 {
                     // First byte contains positional data:
                     uint8_t position = bt_serial_read();
-                    uint8_t grid_tile = (position >> 4) && 0x0F;
+                    uint8_t grid_tile = (position >> 4) & 0x0F;
                     uint8_t height = position & 0x0F;
 
                     // Second byte contains the block data:
@@ -164,15 +164,15 @@ void bt_commands_update_rx()
 
                     block_io_set_target_block(grid_tile, height, block_data);
                     blocks_remaining--;
-
-                    // Once all blocks have been read, the command is finished:
-                    if (blocks_remaining == 0)
-                    {
-                        current_command = BT_COMMAND_NONE;
-                    }
                 }
             }
-            
+
+            // Once all blocks have been read, the command is finished:
+            if (blocks_remaining == 0)
+            {
+                current_command = BT_COMMAND_NONE;
+            }
+
             break;
         default:
             // Unrecognised command
