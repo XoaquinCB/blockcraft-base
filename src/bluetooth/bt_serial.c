@@ -5,14 +5,14 @@
 #include "pico/util/queue.h"
 
 #define RX_BUFFER_SIZE 1024
-#define UART_ID        uart0
+#define UART_ID        uart1
 #define BAUD_RATE      9600
 #define DATA_BITS      8
 #define STOP_BITS      1
 #define PARITY         UART_PARITY_NONE
-#define UART_TX_PIN    0
-#define UART_RX_PIN    1
-#define BT_STATUS_PIN  2
+#define UART_TX_PIN    8
+#define UART_RX_PIN    9
+#define BT_STATUS_PIN  7
 
 static queue_t rx_buffer;
 
