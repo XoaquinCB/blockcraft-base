@@ -10,7 +10,7 @@ int main()
     sleep_ms(5000); // give user some time to open a serial console
 
     printf("Starting...\n");
-    
+
     audio_init();
 
     while (1)

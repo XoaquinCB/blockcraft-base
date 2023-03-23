@@ -45,16 +45,16 @@ int main()
 {
     stdio_usb_init();
     sleep_ms(5000);
-    
+
     printf("Starting...\n");
-    
+
     block_io_init();
 
     // Set an arbitrary target structure:
     block_io_clear_target_structure();
     block_io_set_target_block(0, 0, 13);
     block_io_set_target_block(1, 0, 5);
-    
+
     printf("Ready\n");
 
     while (1)

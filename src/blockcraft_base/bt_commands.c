@@ -45,7 +45,7 @@ static bool led_timer_callback(repeating_timer_t *rt)
     {
         block_io_set_led_mode(OFF);
     }
-    
+
     // After 8 flashes, stop:
     if (led_timer_count++ == 15)
     {
@@ -69,7 +69,7 @@ void bt_commands_update_rx()
         audio_play_sound(AUDIO_SOUND_BT_DISCONNECTED);
     }
     device_connected_previous = device_connected;
-    
+
     // Read next command:
     if (current_command == BT_COMMAND_NONE)
     {
@@ -79,7 +79,7 @@ void bt_commands_update_rx()
             printf("bt_commands: commmand received: ");
         }
     }
-    
+
     // Handle command: 
     switch (current_command & 0xF0)
     {
@@ -122,7 +122,7 @@ void bt_commands_update_rx()
             led_on = false;
             cancel_repeating_timer(&led_timer); // cancel any ongoing timer
             add_repeating_timer_ms(-200, led_timer_callback, NULL, &led_timer);
-            
+
             // Send response saying whether the structure is complete:
             is_structure_correct = block_io_is_complete();
             bt_serial_write(BT_COMMAND_CONFIRM_COMPLETION | is_structure_correct);
@@ -140,12 +140,12 @@ void bt_commands_update_rx()
                     blocks_remaining = bt_serial_read();
 
                     printf("target structure with %u blocks\n", blocks_remaining);
-                    
+
                     // Clear target structure to prepare for writing new structure:
                     block_io_clear_target_structure();
                 }
             }
-            
+
             // Handle the remaining bytes:
             if (blocks_remaining > 0)
             {
@@ -159,7 +159,7 @@ void bt_commands_update_rx()
 
                     // Second byte contains the block data:
                     uint8_t block_data = bt_serial_read();
-                    
+
                     printf("bt_commands:   block[%u][%u] = 0x%02x\n", grid_tile, height, block_data);
 
                     block_io_set_target_block(grid_tile, height, block_data);

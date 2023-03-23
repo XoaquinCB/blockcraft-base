@@ -34,23 +34,23 @@ size_t bt_serial_available()
 void bt_serial_init()
 {
     queue_init(&rx_buffer, sizeof(uint8_t), RX_BUFFER_SIZE);
-    
+
     uart_init(UART_ID, BAUD_RATE);
 
     gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
-    
+
     uart_set_hw_flow(UART_ID, false, false);
     uart_set_format(UART_ID, DATA_BITS, STOP_BITS, PARITY);
     uart_set_fifo_enabled(UART_ID, true);
     uart_set_translate_crlf(UART_ID, false); // don't translate CR/LF since we're working with raw bytes
-    
+
     const int UART_IRQ = (UART_ID == uart0) ? UART0_IRQ : UART1_IRQ;
-    
+
     irq_set_exclusive_handler(UART_IRQ, on_uart_rx);
     irq_set_enabled(UART_IRQ, true);
     uart_set_irq_enables(UART_ID, true, false);
-    
+
     gpio_init(BT_STATUS_PIN); // set status pin as a normal input pin
 }
 

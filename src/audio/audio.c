@@ -81,7 +81,7 @@ static void fill_write_buffer_irh()
     // Then if there are any remaining samples to be written (because there is no file playing
     // or the file just ended), fill them with zeros:
     // [ 0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 0, 0 ].
-    
+
     size_t sample_count = 0;
 
     // If file_mutex is already claimed, the program must be changing audio file. Don't bother waiting
@@ -102,7 +102,7 @@ static void fill_write_buffer_irh()
             samples_remaining_in_file -= sample_count;
 
             // Check if we've read all the samples or if we've reached the end of the file:
-            if (samples_remaining_in_file == 0 || (bytes_read < bytes_to_read))
+            if (samples_remaining_in_file == 0 || bytes_read < bytes_to_read)
             {
                 f_close(&audio_file);
                 is_file_open = false;
@@ -119,7 +119,7 @@ static void fill_write_buffer_irh()
                 // The WAVE files we're reading store values as signed 16 bit values, but PWM will need
                 // unsigned. We may also want to change the bit depth.
                 uint16_t sample = CONVERT_SAMPLE_FROM_S16(write_buffer[sample_index]);
-                
+
                 // Duplicate the sample PWM_CYCLES_PER_SAMPLE times:
                 for (size_t i = 0; i < PWM_CYCLES_PER_SAMPLE; i++)
                 {
@@ -258,7 +258,7 @@ void audio_play_sound(size_t sound_number)
 
         size_t bytes_read;
         uint8_t buffer[4];
-        
+
         // Read RIFF header "ChunkID":
         f_lseek(&audio_file, 0); // make sure we're at the beginning of the file
         f_read(&audio_file, buffer, 4, &bytes_read);
@@ -267,7 +267,7 @@ void audio_play_sound(size_t sound_number)
             printf("audio: Error: Audio file \"%s\" is not a valid RIFF (WAVE) file.", filename);
             goto invalid_file;
         }
-        
+
         // Read format (should be WAVE):
         f_lseek(&audio_file, 8); // seek to format
         f_read(&audio_file, buffer, 4, &bytes_read);
@@ -276,9 +276,9 @@ void audio_play_sound(size_t sound_number)
             printf("audio: Error: Audio file \"%s\" is not a valid WAVE file.", filename);
             goto invalid_file;
         }
-        
+
         // Read audio format (should be PCM):
-        f_lseek(&audio_file, 20);
+        f_lseek(&audio_file, 20); // seek to audio format
         f_read(&audio_file, buffer, 2, &bytes_read);
         uint16_t audio_format = (buffer[1] << 8) | (buffer[0]);
         if (audio_format != 1) // PCM format
@@ -286,9 +286,9 @@ void audio_play_sound(size_t sound_number)
             printf("audio: Error: Audio file \"%s\" does not use PCM format. Only PCM is supported.", filename);
             goto invalid_file;
         }
-        
+
         // Read number of channels (should be 1):
-        f_lseek(&audio_file, 22);
+        f_lseek(&audio_file, 22); // seek to number of channels
         f_read(&audio_file, buffer, 2, &bytes_read);
         uint16_t num_channels = (buffer[1] << 8) | (buffer[0]);
         if (num_channels != 1)
@@ -296,9 +296,9 @@ void audio_play_sound(size_t sound_number)
             printf("audio: Error: Audio file \"%s\" has %u channels. Only one is supported (mono).", filename, num_channels);
             goto invalid_file;
         }
-        
+
         // Read bits per sample (should be 16):
-        f_lseek(&audio_file, 34);
+        f_lseek(&audio_file, 34); // seek to bits per sample
         f_read(&audio_file, buffer, 2, &bytes_read);
         uint16_t bits_per_sample = (buffer[1] << 8) | (buffer[0]);
         if (bits_per_sample != 16)
@@ -308,9 +308,9 @@ void audio_play_sound(size_t sound_number)
         }
 
         printf("audio: Playing audio file \"%s\".\n", filename);
-        
+
         // Read sample rate:
-        f_lseek(&audio_file, 24);
+        f_lseek(&audio_file, 24); // seek to sample rate
         f_read(&audio_file, buffer, 4, &bytes_read);
         uint32_t file_sample_rate = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | (buffer[0]);
         if (file_sample_rate != SAMPLE_RATE)
@@ -321,13 +321,13 @@ void audio_play_sound(size_t sound_number)
                 SAMPLE_RATE
                 );
         }
-        
+
         // Read number of samples:
-        f_lseek(&audio_file, 40);
+        f_lseek(&audio_file, 40); // seek to data size
         f_read(&audio_file, buffer, 4, &bytes_read);
         uint32_t data_size = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | (buffer[0]);
         samples_remaining_in_file = data_size / 2;
-        
+
         // Place file pointer at the start of the samples:
         f_lseek(&audio_file, 44);
     }
@@ -335,7 +335,7 @@ void audio_play_sound(size_t sound_number)
     {
         printf("audio: Error: Failed to open audio file \"%s\".\n", filename);
     }
-    
+
     mutex_exit(&file_mutex);
     return;
 

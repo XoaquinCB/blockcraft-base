@@ -105,7 +105,7 @@ void block_io_update()
     gpio_put(SS_CLK_PIN, 1);
     sleep_us(1);
     gpio_put(SS_DATA_PIN, 1);
-    
+
     is_complete = true;
     is_corrupted = false;
 
@@ -195,7 +195,7 @@ void block_io_update()
         if (height == HEIGHT_LIMIT)
         {
             spi_write_read_blocking(spi0, &write_buffer, &read_buffer, 1);
-            
+
             if (read_buffer != 0x00)
             {
                 grid_height[grid_tile] = 0;
