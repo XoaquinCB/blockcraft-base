@@ -244,7 +244,7 @@ void audio_play_sound(size_t sound_number)
     // Audio files have numeric names (in lowercase hex) like "5b.wav", given by the sound_number.
     const size_t filename_length =
         sizeof(sound_number) * 2 // enough space for two hex digits per byte
-        + 3  // ".wav"
+        + 4  // ".wav"
         + 1; // null terminator
     char filename[filename_length];
     snprintf(filename, filename_length, "%x.wav", sound_number);
